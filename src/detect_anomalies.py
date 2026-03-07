@@ -9,9 +9,11 @@ FEATURE_COLUMNS = [
     "day_of_week",
     "login_success",
     "is_night_login",
-    "user_failed_count",
+    "user_failed_count_total",
+    "ip_failed_count_total",
     "is_new_ip_for_user",
     "is_new_device_for_user",
+    "user_event_count",
 ]
 
 
