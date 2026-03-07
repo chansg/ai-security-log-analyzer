@@ -21,3 +21,5 @@ You will have
 - output/anomaly_report.txt
 
 - output/anomalies_by_date.png
+
+![description](https://github.com/chansg/ai-security-log-analyzer/blob/master/output/anomalies_by_date.png)
