@@ -1,25 +1,25 @@
 AI Security Log Analyzer Report
 ========================================
-Total events analysed: 1002
-Anomalies detected: 21
+Total events analysed: 1239
+Anomalies detected: 25
 
-2026-03-01 08:13:00 | user=guest | ip=192.168.1.24 | location=UK | device=MacBook | success=1 | score=-0.0036
-2026-03-01 08:28:00 | user=bob | ip=192.168.1.219 | location=FR | device=Desktop-PC | success=1 | score=-0.0036
-2026-03-01 10:45:00 | user=charlie | ip=192.168.1.58 | location=DE | device=Desktop-PC | success=0 | score=-0.0288
-2026-03-01 11:26:00 | user=charlie | ip=192.168.1.25 | location=DE | device=VPN-Client | success=1 | score=-0.0000
-2026-03-01 14:10:00 | user=guest | ip=192.168.1.186 | location=UK | device=Desktop-PC | success=0 | score=-0.0645
-2026-03-01 14:31:00 | user=bob | ip=192.168.1.127 | location=FR | device=MacBook | success=1 | score=-0.0008
-2026-03-01 19:26:00 | user=guest | ip=192.168.1.180 | location=DE | device=VPN-Client | success=1 | score=-0.0227
-2026-03-01 21:53:00 | user=alice | ip=192.168.1.61 | location=FR | device=Desktop-PC | success=0 | score=-0.0050
-2026-03-01 21:57:00 | user=alice | ip=192.168.1.197 | location=DE | device=Windows-Laptop | success=1 | score=-0.0237
-2026-03-02 23:20:00 | user=alice | ip=192.168.1.95 | location=UK | device=VPN-Client | success=1 | score=-0.0139
-2026-03-03 00:42:00 | user=guest | ip=192.168.1.196 | location=UK | device=VPN-Client | success=0 | score=-0.0144
-2026-03-03 03:42:00 | user=guest | ip=192.168.1.46 | location=US | device=Windows-Laptop | success=0 | score=-0.0055
-2026-03-03 08:54:00 | user=admin | ip=192.168.1.66 | location=DE | device=Desktop-PC | success=0 | score=-0.0063
-2026-03-04 01:33:00 | user=guest | ip=192.168.1.25 | location=DE | device=MacBook | success=0 | score=-0.0204
-2026-03-04 02:10:00 | user=bob | ip=198.51.100.99 | location=CN | device=Unknown-Device | success=0 | score=-0.0653
-2026-03-05 01:24:00 | user=guest | ip=192.168.1.209 | location=US | device=VPN-Client | success=0 | score=-0.0092
-2026-03-05 03:31:00 | user=guest | ip=192.168.1.65 | location=FR | device=VPN-Client | success=0 | score=-0.0456
-2026-03-05 04:59:00 | user=guest | ip=192.168.1.91 | location=US | device=Windows-Laptop | success=0 | score=-0.0131
-2026-03-05 07:06:00 | user=guest | ip=192.168.1.117 | location=UK | device=MacBook | success=0 | score=-0.0299
-2026-03-05 23:30:00 | user=bob | ip=192.168.1.26 | location=US | device=Desktop-PC | success=0 | score=-0.0391
+2026-03-01 00:19:00 | user=guest | ip=192.168.1.27 | location=UK | device=Shared-Kiosk | success=0 | score=-0.0860
+2026-03-01 00:35:00 | user=admin | ip=10.0.0.12 | location=UK | device=Admin-Workstation | success=1 | score=-0.0466
+2026-03-01 01:08:00 | user=bob | ip=192.168.1.30 | location=UK | device=Desktop-PC | success=1 | score=-0.0349
+2026-03-03 01:30:00 | user=alice | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0593
+2026-03-03 01:30:25 | user=bob | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0626
+2026-03-03 01:30:50 | user=charlie | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0631
+2026-03-03 01:31:15 | user=guest | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0774
+2026-03-03 01:31:40 | user=admin | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0783
+2026-03-03 01:32:05 | user=service_desk | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0870
+2026-03-03 01:32:30 | user=david | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0930
+2026-03-03 01:32:55 | user=eve | ip=198.51.100.77 | location=US | device=Unknown-Host | success=0 | score=-0.0935
+2026-03-03 23:16:00 | user=admin | ip=10.0.0.43 | location=UK | device=Admin-Workstation | success=0 | score=-0.0167
+2026-03-04 02:11:10 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0045
+2026-03-04 02:11:15 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0091
+2026-03-04 02:11:20 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0148
+2026-03-04 02:11:25 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0226
+2026-03-04 02:11:30 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0245
+2026-03-04 02:11:35 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0277
+2026-03-04 02:11:40 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0315
+2026-03-04 02:11:45 | user=admin | ip=185.220.101.45 | location=RU | device=Unknown-Host | success=0 | score=-0.0407
