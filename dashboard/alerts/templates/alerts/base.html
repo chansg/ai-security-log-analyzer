@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Security Log Analyzer{% endblock %}</title>
+
+    {# --- Google Fonts: monospace font for the hacker aesthetic --- #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+    {# --- Chart.js via CDN for the time-series chart --- #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+    {# --- Custom stylesheet --- #}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+{# ================================================================= #}
+{# Navigation bar                                                     #}
+{# ================================================================= #}
+<nav class="navbar">
+    <div class="nav-brand">
+        <span class="nav-icon">&#9888;</span> {# Warning sign emoji #}
+        <a href="{% url 'home' %}">Security Log Analyzer</a>
+    </div>
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Dashboard</a>
+    </div>
+</nav>
+
+{# ================================================================= #}
+{# Main content area -- each page fills this block                    #}
+{# ================================================================= #}
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+
+{# ================================================================= #}
+{# Footer                                                             #}
+{# ================================================================= #}
+<footer class="footer">
+    <p>AI Security Log Analyzer &mdash; Dashboard</p>
+</footer>
+
+{# Page-specific JavaScript goes here #}
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+{% extends "alerts/base.html" %}
+{% load alert_tags %}
+
+{% block title %}{{ username }} - Security Log Analyzer{% endblock %}
+
+{% block content %}
+
+{# ================================================================= #}
+{# Page heading with back link                                        #}
+{# ================================================================= #}
+<a href="{% url 'home' %}" class="back-link">&larr; Back to Dashboard</a>
+
+<h1 class="page-title">
+    Alerts for <span class="gold">{{ username }}</span>
+</h1>
+
+{# ================================================================= #}
+{# Summary cards for this user                                        #}
+{# ================================================================= #}
+<div class="stats-grid">
+
+    <div class="stat-card stat-total">
+        <div class="stat-number">{{ total_alerts }}</div>
+        <div class="stat-label">Total Alerts</div>
+    </div>
+
+    <div class="stat-card stat-critical">
+        <div class="stat-number">{{ severity_counts.critical }}</div>
+        <div class="stat-label">Critical</div>
+    </div>
+
+    <div class="stat-card stat-high">
+        <div class="stat-number">{{ severity_counts.high }}</div>
+        <div class="stat-label">High</div>
+    </div>
+
+    <div class="stat-card stat-medium">
+        <div class="stat-number">{{ severity_counts.medium }}</div>
+        <div class="stat-label">Medium</div>
+    </div>
+
+    <div class="stat-card stat-low">
+        <div class="stat-number">{{ severity_counts.low }}</div>
+        <div class="stat-label">Low</div>
+    </div>
+</div>
+
+{# ================================================================= #}
+{# Alerts table for this user                                         #}
+{# ================================================================= #}
+<div class="card">
+    <h2 class="card-title">Alert History for {{ username }}</h2>
+    <div class="table-wrapper">
+        <table class="alerts-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>Type</th>
+                    <th>Severity</th>
+                    <th>Source IP</th>
+                    <th>Rule / Score</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.id }}</td>
+                    <td class="mono">{{ alert.timestamp }}</td>
+                    <td>
+                        <span class="badge badge-{{ alert.alert_type }}">
+                            {{ alert.alert_type|upper }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge {{ alert.severity|severity_class }}">
+                            {{ alert.severity|upper }}
+                        </span>
+                    </td>
+                    <td class="mono">{{ alert.source_ip }}</td>
+                    <td class="mono">
+                        {% if alert.rule_name %}
+                            {{ alert.rule_name }}
+                        {% elif alert.anomaly_score != None %}
+                            {{ alert.anomaly_score }}
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                    <td class="desc-cell">{{ alert.description }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="empty-msg">
+                        No alerts found for {{ username }}.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

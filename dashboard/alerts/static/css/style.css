@@ -1,0 +1,388 @@
+/*
+ * style.css -- Dark theme for the Security Log Analyzer dashboard
+ * ================================================================
+ * Design system:
+ *   Background : #0d1117 (deep dark, matches GitHub dark mode)
+ *   Surface    : #161b22 (slightly lighter, for cards)
+ *   Border     : #30363d (subtle dividers)
+ *   Text       : #e6edf3 (off-white, easy on the eyes)
+ *   Muted text : #8b949e (secondary info)
+ *   Gold accent: #d4af37 (primary action / highlight colour)
+ *   Monospace  : JetBrains Mono (hacker aesthetic)
+ */
+
+
+/* ================================================================= */
+/* Reset & base                                                       */
+/* ================================================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 14px;
+}
+
+body {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    background-color: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ================================================================= */
+/* Navbar                                                             */
+/* ================================================================= */
+
+.navbar {
+    background-color: #161b22;
+    border-bottom: 1px solid #30363d;
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand a {
+    color: #d4af37;
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-brand a:hover {
+    color: #f0d060;
+}
+
+.nav-icon {
+    margin-right: 0.5rem;
+}
+
+.nav-links a {
+    color: #8b949e;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+    color: #d4af37;
+}
+
+
+/* ================================================================= */
+/* Container                                                          */
+/* ================================================================= */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    flex: 1;
+}
+
+
+/* ================================================================= */
+/* Typography                                                         */
+/* ================================================================= */
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #e6edf3;
+    margin-bottom: 1.5rem;
+}
+
+.gold {
+    color: #d4af37;
+}
+
+.back-link {
+    display: inline-block;
+    color: #d4af37;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: #f0d060;
+    text-decoration: underline;
+}
+
+
+/* ================================================================= */
+/* Stat cards (top row)                                               */
+/* ================================================================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 1.2rem 1rem;
+    text-align: center;
+    transition: border-color 0.2s;
+}
+
+.stat-card:hover {
+    border-color: #d4af37;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.3rem;
+}
+
+/* Colour-code each severity card's number */
+.stat-total    .stat-number { color: #d4af37; }
+.stat-critical .stat-number { color: #f85149; }
+.stat-high     .stat-number { color: #f0883e; }
+.stat-medium   .stat-number { color: #d29922; }
+.stat-low      .stat-number { color: #58a6ff; }
+.stat-type     .stat-number { color: #d4af37; font-size: 1.5rem; }
+
+
+/* ================================================================= */
+/* Dashboard grid (chart + user list side by side)                    */
+/* ================================================================= */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ================================================================= */
+/* Cards (generic container)                                          */
+/* ================================================================= */
+
+.card {
+    background-color: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #d4af37;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 0.5rem;
+}
+
+.card-subtitle {
+    color: #8b949e;
+    font-size: 0.8rem;
+    margin-bottom: 0.75rem;
+}
+
+
+/* ================================================================= */
+/* Chart                                                              */
+/* ================================================================= */
+
+.chart-wrapper {
+    position: relative;
+    height: 300px;
+}
+
+
+/* ================================================================= */
+/* User list (sidebar)                                                */
+/* ================================================================= */
+
+.user-list {
+    list-style: none;
+    padding: 0;
+}
+
+.user-list li {
+    border-bottom: 1px solid #21262d;
+}
+
+.user-list li:last-child {
+    border-bottom: none;
+}
+
+.user-list a {
+    display: block;
+    padding: 0.6rem 0.5rem;
+    color: #e6edf3;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.15s, color 0.15s;
+    border-radius: 4px;
+}
+
+.user-list a:hover {
+    background-color: #21262d;
+    color: #d4af37;
+}
+
+.user-icon {
+    color: #d4af37;
+    margin-right: 0.4rem;
+}
+
+
+/* ================================================================= */
+/* Alerts table                                                       */
+/* ================================================================= */
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.alerts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.alerts-table thead {
+    background-color: #21262d;
+}
+
+.alerts-table th {
+    text-align: left;
+    padding: 0.7rem 0.6rem;
+    color: #d4af37;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #30363d;
+    white-space: nowrap;
+}
+
+.alerts-table td {
+    padding: 0.6rem;
+    border-bottom: 1px solid #21262d;
+    vertical-align: top;
+}
+
+.alerts-table tbody tr:hover {
+    background-color: #1c2129;
+}
+
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.desc-cell {
+    max-width: 350px;
+    font-size: 0.8rem;
+    color: #8b949e;
+    line-height: 1.4;
+}
+
+.empty-msg {
+    text-align: center;
+    color: #8b949e;
+    padding: 2rem !important;
+}
+
+
+/* ================================================================= */
+/* Badges (severity + type labels)                                    */
+/* ================================================================= */
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* Severity badges */
+.severity-critical {
+    background-color: rgba(248, 81, 73, 0.2);
+    color: #f85149;
+    border: 1px solid rgba(248, 81, 73, 0.4);
+}
+
+.severity-high {
+    background-color: rgba(240, 136, 62, 0.2);
+    color: #f0883e;
+    border: 1px solid rgba(240, 136, 62, 0.4);
+}
+
+.severity-medium {
+    background-color: rgba(210, 153, 34, 0.2);
+    color: #d29922;
+    border: 1px solid rgba(210, 153, 34, 0.4);
+}
+
+.severity-low {
+    background-color: rgba(88, 166, 255, 0.2);
+    color: #58a6ff;
+    border: 1px solid rgba(88, 166, 255, 0.4);
+}
+
+/* Alert type badges */
+.badge-ml {
+    background-color: rgba(212, 175, 55, 0.2);
+    color: #d4af37;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.badge-rule {
+    background-color: rgba(0, 200, 180, 0.2);
+    color: #00c8b4;
+    border: 1px solid rgba(0, 200, 180, 0.4);
+}
+
+
+/* ================================================================= */
+/* Footer                                                             */
+/* ================================================================= */
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+    color: #484f58;
+    font-size: 0.75rem;
+    border-top: 1px solid #21262d;
+    margin-top: auto;
+}
