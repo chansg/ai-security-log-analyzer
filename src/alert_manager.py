@@ -161,9 +161,8 @@ def collect_ml_alerts(df: pd.DataFrame, model) -> list[dict]:
         score <= -0.02  -->  "medium"
         else            -->  "low"        (borderline anomaly)
 
-    These thresholds are tuned to the Isolation Forest's typical score
-    range for this dataset.  In production, you would calibrate them
-    against labelled data.
+    TODO: these severity thresholds are pretty arbitrary — should
+    calibrate against labelled data properly at some point.
 
     Args:
         df:    The feature-engineered DataFrame (all events).
@@ -274,8 +273,8 @@ def store_alerts(conn: sqlite3.Connection, alerts: list[dict]) -> None:
     """
     cursor = conn.cursor()
 
-    # Wipe previous alerts so the table reflects the current run only.
-    # This avoids duplicate rows when the pipeline is re-run.
+    # HACK: wiping the table each run — should really add a run_id column
+    # and keep history, but this works for now
     cursor.execute("DELETE FROM alerts")
 
     # Insert each alert as a new row.

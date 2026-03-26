@@ -53,7 +53,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 # ---------------------------------------------------------------------------
 
 # Same feature list used by train_model.py and detect_anomalies.py.
-# If you ever add or remove features, update ALL three files.
+# TODO: really should pull this from a shared config instead of copy-pasting
+# across three files — it's going to bite me eventually
 FEATURE_COLUMNS = [
     "hour",
     "day_of_week",

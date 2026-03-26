@@ -31,9 +31,8 @@ import pandas as pd
 # Geo-location helpers (for the impossible-travel rule)
 # ---------------------------------------------------------------------------
 
-# Approximate latitude/longitude for each country code that appears in
-# our dataset.  In a real system you would use a GeoIP database like
-# MaxMind; here we use capital-city coordinates as a reasonable proxy.
+# TODO: swap this out for a proper GeoIP lookup (MaxMind?) at some point
+# Using capital city coords for now which is... fine for a demo
 LOCATION_COORDS: dict[str, tuple[float, float]] = {
     "UK": (51.5074, -0.1278),    # London
     "DE": (52.5200, 13.4050),    # Berlin
@@ -401,10 +400,8 @@ def run_all_rules(df: pd.DataFrame) -> list[dict]:
     all_alerts.extend(brute_alerts)
 
     # --- Rule 2: Password-spray detection ---
-    # Looks for a single IP trying many different usernames.
-    # NOTE: Our dataset has 8 spray users in a 3.5-min window.
-    # We lower the threshold to 4 so the rule catches our 8-user spray.
-    # In production you would tune this to your environment.
+    # NOTE: threshold is 4 here because our test data only has 8 spray users.
+    # TODO: make thresholds configurable via a config file or CLI args
     spray_alerts = detect_password_spray(df, threshold=4, window_minutes=5)
     all_alerts.extend(spray_alerts)
 

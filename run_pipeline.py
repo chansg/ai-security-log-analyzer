@@ -92,6 +92,7 @@ STAGES = [
     ),
 ]
 
+# TODO: add a --verbose flag to control how much output each stage prints
 # Dashboard is special -- it launches a long-running server rather than
 # a batch script, so it's handled separately from the pipeline stages.
 DASHBOARD_SCRIPT = "dashboard/manage.py"

@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def main() -> None:
+    # TODO: add severity breakdown to the chart (stacked bars by severity?)
     df = pd.read_csv("output/alerts.csv")
     if df.empty:
         print("No anomalies found.")

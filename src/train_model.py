@@ -21,6 +21,8 @@ FEATURE_COLUMNS = [
 def train() -> None:
     df = pd.read_csv("data/processed/login_features.csv")
 
+    # TODO: try different contamination values, 0.02 was just a guess
+    # TODO: experiment with other models (LOF, autoencoder maybe?)
     model = IsolationForest(
         n_estimators=100,
         contamination=0.02,

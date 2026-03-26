@@ -30,6 +30,8 @@ def detect() -> None:
     anomalies = df[df["anomaly"] == -1].copy()
     anomalies.to_csv("output/alerts.csv", index=False)
 
+    # TODO: only printing first 20 anomalies in the report — fine for now but
+    # should probably paginate or at least mention if there are more
     with open("output/anomaly_report.txt", "w", encoding="utf-8") as f:
         f.write("AI Security Log Analyzer Report\n")
         f.write("=" * 40 + "\n")

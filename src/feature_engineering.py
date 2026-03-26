@@ -38,6 +38,8 @@ def add_new_device_flag(df: pd.DataFrame) -> pd.Series:
 
 
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
+    # TODO: the iterrows() stuff in add_new_ip_flag/add_new_device_flag is slow
+    # on big datasets — should vectorise with groupby+cumcount or similar
     feature_df = df.copy()
 
     feature_df["failed_login"] = 1 - feature_df["login_success"]

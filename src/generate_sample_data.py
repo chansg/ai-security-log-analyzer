@@ -46,7 +46,7 @@ def random_ip(private: bool = True) -> str:
     if private:
         # Private IPs simulate devices on the internal corporate LAN
         return f"192.168.1.{random.randint(1, 254)}"
-    # Public IPs simulate external / unknown sources
+    # TODO: should probably exclude reserved ranges properly (RFC 5737 etc)
     return (
         f"{random.randint(11, 223)}."
         f"{random.randint(0, 255)}."
@@ -86,7 +86,7 @@ def generate_normal_events(num_rows: int = 1200) -> list[dict]:
         "guest":   {"location": "UK", "device": "Shared-Kiosk",      "base_ip": "192.168.1."},
     }
 
-    # All events fall inside a 7-day window starting March 1 2026
+    # TODO: make the date range configurable instead of hardcoding
     base_time = datetime(2026, 3, 1, 0, 0, 0)
     rows: list[dict] = []
 

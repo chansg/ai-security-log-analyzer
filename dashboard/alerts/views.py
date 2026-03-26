@@ -216,9 +216,9 @@ def user_detail(request, username: str):
         request:  Django HTTP request.
         username: The username to filter alerts for.
     """
-    # Use LIKE with wildcards so we catch both:
-    #   "admin"                      (exact match)
-    #   "admin, alice, bob, ..."     (part of a comma-separated list)
+    # FIXME: LIKE with wildcards will match partial usernames too
+    # e.g. searching for "ad" would match "admin" — not great
+    # should probably normalise this into a separate table
     alerts = query_all(
         "SELECT * FROM alerts WHERE affected_user LIKE ? ORDER BY id DESC",
         (f"%{username}%",),

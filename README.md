@@ -1,6 +1,6 @@
 # AI Security Log Analyzer
 
-Detecting suspicious authentication behaviour using machine learning-driven anomaly detection.
+Detecting dodgy authentication behaviour with ML-driven anomaly detection.
 
 ![Dashboard](images/dashboard.png)
 
@@ -8,26 +8,25 @@ Detecting suspicious authentication behaviour using machine learning-driven anom
 
 ## Overview
 
-AI Security Log Analyzer is a Python-based security analytics project designed to identify suspicious authentication activity using machine learning.
+This started as a project to teach myself how security analytics pipelines actually work — turns out there's a lot more to it than just throwing sklearn at some logs.
 
-The system simulates authentication telemetry, processes login events into structured datasets, engineers behavioural security features, and applies an **Isolation Forest anomaly detection model** to identify unusual login behaviour. A **rule engine** provides deterministic, threshold-based detection alongside the ML model, and a **Django web dashboard** presents the combined results.
+The system generates fake auth telemetry, processes login events, builds out behavioural features, and runs an **Isolation Forest** to flag suspicious logins. There's also a **rule engine** for the obvious stuff (brute force, password spraying, etc.) and a **Django dashboard** to visualise everything.
 
-This project demonstrates how **security monitoring systems combine data engineering, feature analysis, and machine learning** to detect potential threats such as:
+It covers detection of things like:
 
 - Brute-force login attempts
 - Password spraying
-- Suspicious administrative activity
-- Unusual login times
-- New IP or device activity
-- Impossible travel scenarios
+- Suspicious admin activity at odd hours
+- Logins from new IPs or devices
+- Impossible travel (same user, two countries, 40 minutes apart)
 
-The goal of this project is to replicate a simplified version of the **security analytics workflows used by modern SOC teams and security engineers**.
+Basically a simplified version of what SOC teams and security engineers deal with, minus the 3am pager alerts.
 
 ---
 
 ## Architecture
 
-The pipeline follows a typical **security data processing workflow**:
+Pretty standard data pipeline setup:
 
 ```
 Authentication Logs
@@ -39,16 +38,16 @@ Data Generation / Ingestion
 Preprocessing & Feature Engineering
 │
 ▼
-Machine Learning Model (Isolation Forest)  +  Rule Engine
+Isolation Forest  +  Rule Engine
 │
 ▼
-Anomaly Detection & Alert Generation
+Anomaly Detection & Alerts
 │
 ▼
-SQLite Database  /  JSON Export
+SQLite / JSON Export
 │
 ▼
-Django Web Dashboard
+Django Dashboard
 ```
 
 ---
@@ -58,49 +57,49 @@ Django Web Dashboard
 ```
 SecurityLogAnalyzer/
 │
-├── run_pipeline.py                    # CLI entry point — run the full pipeline or individual stages
+├── run_pipeline.py                    # CLI entry point — runs everything or individual stages
 │
 ├── src/
 │   ├── generate_sample_data.py        # Stage 1: Generate synthetic login data with attacks
-│   ├── preprocess.py                  # Stage 2: Parse timestamps & extract temporal features
-│   ├── feature_engineering.py         # Stage 3: Engineer behavioural features for the model
-│   ├── train_model.py                 # Stage 4: Train the Isolation Forest model
-│   ├── detect_anomalies.py            # Stage 5: Run anomaly detection and write reports
-│   ├── alert_manager.py              # Stage 6: Combine ML + rule alerts, store in SQLite/JSON
-│   ├── rule_engine.py                 # Rule-based detection (brute force, spray, impossible travel)
-│   ├── evaluate.py                    # Stage 7: Evaluate model accuracy with ground-truth labels
-│   └── visualize_anomalies.py         # Stage 8: Generate anomalies-by-date chart
+│   ├── preprocess.py                  # Stage 2: Parse timestamps, extract time features
+│   ├── feature_engineering.py         # Stage 3: Build behavioural features
+│   ├── train_model.py                 # Stage 4: Train the Isolation Forest
+│   ├── detect_anomalies.py            # Stage 5: Run detection and write reports
+│   ├── alert_manager.py              # Stage 6: Merge ML + rule alerts into SQLite/JSON
+│   ├── rule_engine.py                 # Threshold-based detection rules
+│   ├── evaluate.py                    # Stage 7: Evaluate against ground-truth labels
+│   └── visualize_anomalies.py         # Stage 8: Chart of anomalies by date
 │
 ├── dashboard/
-│   ├── manage.py                      # Django management CLI
+│   ├── manage.py
 │   ├── dashboard_config/
-│   │   ├── settings.py                # Django settings
-│   │   ├── urls.py                    # URL routing
-│   │   └── wsgi.py                    # WSGI entry point
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
 │   └── alerts/
 │       ├── views.py                   # Dashboard views (home, user detail, chart API)
-│       ├── urls.py                    # App URL routing
-│       ├── templates/alerts/          # HTML templates (base, home, user detail)
-│       ├── static/css/style.css       # Dark-theme styling
-│       └── templatetags/alert_tags.py # Custom template filters
+│       ├── urls.py
+│       ├── templates/alerts/          # HTML templates
+│       ├── static/css/style.css       # Dark theme
+│       └── templatetags/alert_tags.py # Custom filters
 │
 ├── data/
-│   ├── raw/                           # Raw generated login data
-│   ├── processed/                     # Preprocessed and feature-engineered data
-│   ├── alerts.db                      # SQLite alert database
-│   └── alerts.json                    # JSON alert export
+│   ├── raw/                           # Raw generated data
+│   ├── processed/                     # Feature-engineered data
+│   ├── alerts.db                      # SQLite database
+│   └── alerts.json                    # JSON export
 │
 ├── models/
-│   └── isolation_forest.pkl           # Trained Isolation Forest model
+│   └── isolation_forest.pkl           # Saved model
 │
 ├── output/
-│   ├── alerts.csv                     # ML-detected anomalies
-│   ├── anomaly_report.txt             # Human-readable anomaly report
-│   ├── anomalies_by_date.png          # Bar chart of anomalies by date
-│   └── confusion_matrix.png           # Model evaluation heatmap
+│   ├── alerts.csv                     # Flagged anomalies
+│   ├── anomaly_report.txt             # Human-readable report
+│   ├── anomalies_by_date.png          # Bar chart
+│   └── confusion_matrix.png           # Evaluation heatmap
 │
-├── notebooks/                         # Jupyter notebooks for analysis
-├── requirements.txt                   # Python dependencies
+├── notebooks/                         # Jupyter notebooks for poking around
+├── requirements.txt
 └── README.md
 ```
 
@@ -116,16 +115,13 @@ SecurityLogAnalyzer/
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/chansg/ai-security-log-analyzer.git
 cd ai-security-log-analyzer
 
-# Create and activate a virtual environment
 python -m venv .venv
 source .venv/bin/activate        # Linux/macOS
 .venv\Scripts\activate           # Windows
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -133,48 +129,48 @@ pip install -r requirements.txt
 
 ## Running the Pipeline
 
-The project includes a **CLI runner** (`run_pipeline.py`) that manages all pipeline stages. You no longer need to run each script manually in the correct order.
+There's a CLI runner (`run_pipeline.py`) so you don't have to remember what order to run things in.
 
-### Run the full pipeline
+### Full pipeline
 
 ```bash
 python run_pipeline.py
 ```
 
-This executes all 8 stages sequentially:
+Runs all 8 stages in order:
 
-| # | Stage | Description |
+| # | Stage | What it does |
 |---|-------|-------------|
-| 1 | `generate` | Generate synthetic login data with injected attack scenarios |
-| 2 | `preprocess` | Parse timestamps and extract temporal features |
-| 3 | `features` | Engineer behavioural features for the ML model |
-| 4 | `train` | Train the Isolation Forest anomaly-detection model |
-| 5 | `detect` | Run anomaly detection and write reports to `output/` |
-| 6 | `alerts` | Run ML + rule engine, store alerts in SQLite and JSON |
-| 7 | `evaluate` | Evaluate model accuracy against ground-truth labels |
-| 8 | `visualize` | Generate the anomalies-by-date bar chart |
+| 1 | `generate` | Generates synthetic login data with attack scenarios mixed in |
+| 2 | `preprocess` | Parses timestamps, pulls out hour/day/night features |
+| 3 | `features` | Builds behavioural features (failed counts, new IP flags, etc.) |
+| 4 | `train` | Trains the Isolation Forest model |
+| 5 | `detect` | Runs the model and dumps reports to `output/` |
+| 6 | `alerts` | Runs both ML + rule engine, saves to SQLite and JSON |
+| 7 | `evaluate` | Checks model accuracy against the ground-truth labels |
+| 8 | `visualize` | Generates the anomalies-by-date chart |
 
-If any stage fails, the pipeline stops immediately — later stages depend on earlier outputs.
+If a stage fails, the pipeline stops — no point running detection if training didn't work.
 
-### Run individual stages
+### Individual stages
 
 ```bash
-python run_pipeline.py generate          # run only data generation
-python run_pipeline.py train detect      # run training then detection
-python run_pipeline.py alerts evaluate   # run alerts then evaluation
+python run_pipeline.py generate          # just data generation
+python run_pipeline.py train detect      # training + detection only
+python run_pipeline.py alerts evaluate   # alerts + evaluation
 ```
 
-Stages always execute in the correct pipeline order regardless of the order you type them.
+Stages always run in the right order regardless of how you type them.
 
-### Launch the web dashboard
+### Dashboard
 
 ```bash
 python run_pipeline.py dashboard
 ```
 
-This starts the Django development server at `http://127.0.0.1:8000`. Press `Ctrl+C` to stop.
+Starts the Django dev server at `http://127.0.0.1:8000`. Ctrl+C to stop.
 
-### List available stages
+### See what's available
 
 ```bash
 python run_pipeline.py --list
@@ -182,78 +178,53 @@ python run_pipeline.py --list
 
 ---
 
-## Detection Use Cases
+## Detection Scenarios
 
-The system generates and detects several security scenarios.
+### Brute Force
 
-### Brute Force Attack
+Classic rapid-fire failed logins against a privileged account. One IP, one target, lots of failures.
 
-Repeated login failures against a privileged account.
+### Password Spray
 
-Indicators:
-- Rapid failed logins
-- Multiple attempts from a single external IP
-
-### Password Spraying
-
-Multiple users targeted with a single password attempt.
-
-Indicators:
-- Same IP targeting multiple accounts
-- Short time window of failed logins
+One IP tries the same password across a bunch of different accounts. Slower than brute force — spaced out to dodge lockout thresholds.
 
 ### Impossible Travel
 
-A user authenticates from two geographically distant locations within an unrealistic time window.
+User logs in from the UK, then 40 minutes later from Singapore. Unless they've got a teleporter, someone else has their credentials.
 
-Indicators:
-- New IP
-- New device
-- Rapid location change
+### Off-Hours Admin Login
 
-### Suspicious Admin Login
-
-Administrative account activity occurring at unusual hours or from unknown hosts.
-
-Indicators:
-- Late night login
-- New device
-- Unknown IP
+Admin account active at 3am from an unknown device and foreign IP. Could be nothing, could be very bad.
 
 ---
 
-## Feature Engineering
+## Features
 
-The project extracts behavioural features commonly used in security analytics.
+The ML model works off these behavioural features:
 
-| Feature | Description |
+| Feature | What it captures |
 |---------|-------------|
-| `hour` | Login time of day |
-| `day_of_week` | Day the login occurred |
-| `is_night_login` | Flag for unusual login hours |
-| `user_failed_count_total` | Cumulative failed login attempts per user |
-| `ip_failed_count_total` | Failed attempts from a specific IP |
-| `is_new_ip_for_user` | Indicates if user logged in from a new IP |
-| `is_new_device_for_user` | Indicates if device is new for that user |
-| `user_event_count` | Number of events generated by user |
+| `hour` | Time of day |
+| `day_of_week` | Which day |
+| `is_night_login` | Late night / early morning flag |
+| `user_failed_count_total` | Running count of failed logins per user |
+| `ip_failed_count_total` | Running count of failures from each IP |
+| `is_new_ip_for_user` | First time this user has used this IP |
+| `is_new_device_for_user` | First time this user has used this device |
+| `user_event_count` | How many events this user has generated |
 
-These features help model **normal behavioural baselines** for users and detect deviations.
+The idea is to build a baseline of "normal" for each user and then spot when things look off.
 
 ---
 
-## Machine Learning Model
+## The Model
 
-The system uses an **Isolation Forest model** for anomaly detection.
+Using an **Isolation Forest** — it's an unsupervised anomaly detection model that works by isolating outliers. Points that are easy to separate from everything else are flagged as anomalous.
 
-Isolation Forest works by identifying data points that are easier to isolate from the majority of observations.
-
-Key characteristics:
-
-- Works well with **unlabeled data**
-- Effective for **outlier detection**
-- Common baseline model in **security anomaly detection systems**
-
-Model parameters used:
+Why Isolation Forest:
+- Doesn't need labelled data (good, because in the real world you often don't have it)
+- Handles high-dimensional data well enough
+- Standard choice for security anomaly detection as a starting point
 
 ```python
 IsolationForest(
@@ -263,19 +234,21 @@ IsolationForest(
 )
 ```
 
+The contamination rate is set to 2% — basically telling the model "expect roughly 2% of events to be dodgy". In production you'd tune this based on your actual false positive rate.
+
 ---
 
 ## Rule Engine
 
-Alongside the ML model, a deterministic rule engine applies threshold-based detection:
+Some things don't need ML — they're suspicious by definition:
 
 | Rule | Trigger | Severity |
 |------|---------|----------|
-| Brute Force | > 5 failed logins from one IP within 10 minutes | CRITICAL |
-| Password Spray | > 10 distinct users from one IP within 5 minutes | HIGH |
-| Impossible Travel | Same user from locations > 500 km apart within 60 minutes | CRITICAL |
+| Brute Force | > 5 failed logins from one IP in 10 min | CRITICAL |
+| Password Spray | > 4 distinct users from one IP in 5 min | HIGH |
+| Impossible Travel | Same user, 500+ km apart in under 60 min | CRITICAL |
 
-Both ML and rule-based alerts are combined into a single SQLite database and JSON export.
+Both ML and rule alerts end up in the same SQLite database and JSON export.
 
 ---
 
@@ -289,7 +262,7 @@ timestamp                | user  | source_ip      | location | device         | 
 2026-03-05 09:40:00      | alice | 103.88.12.44   | SG       | Unknown-Device | 1       | -0.29
 ```
 
-**Security Report**
+**Report snippet**
 
 ```
 AI Security Log Analyzer Report
@@ -305,26 +278,28 @@ Detected suspicious events:
 - Unusual admin activity
 ```
 
-**Visualisation**
+**Chart**
 
 ![Anomalies by Date](https://github.com/chansg/ai-security-log-analyzer/blob/master/output/anomalies_by_date.png)
 
 ---
 
-## Web Dashboard
+## Dashboard
 
-The Django dashboard provides a visual overview of all alerts:
+The Django dashboard gives you a visual overview:
 
-- **Summary cards** — Total alerts, severity breakdown, ML vs rule counts
-- **Time-series chart** — Alert volume over time (Chart.js)
-- **Alerts table** — Sortable list with severity badges
-- **User drill-down** — Click a user to see their specific alerts
+- Summary cards showing total alerts, severity breakdown, ML vs rule split
+- Time-series bar chart (Chart.js) of alert volume
+- Alerts table with severity badges
+- Click through to individual user pages
+
+Nothing fancy, but it does the job.
 
 ---
 
 ## MITRE ATT&CK Mapping
 
-Some detections relate to known MITRE ATT&CK techniques.
+Some of the detections map to known ATT&CK techniques:
 
 | Technique | Description |
 |-----------|-------------|
@@ -336,15 +311,12 @@ Some detections relate to known MITRE ATT&CK techniques.
 
 ---
 
-## Technologies Used
+## Tech Stack
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
+- Python, Pandas, NumPy
+- Scikit-learn (Isolation Forest)
 - Matplotlib
-- Django
-- SQLite
+- Django + SQLite
 - Chart.js
 
 ---
