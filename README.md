@@ -2,6 +2,8 @@
 
 Detecting suspicious authentication behaviour using machine learning-driven anomaly detection.
 
+![Dashboard](https://github.com/chansg/ai-security-log-analyzer/images/dashboard.png)
+
 ---
 
 ## Overview
